@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DeviceTracker.Views.FlyoutHeader"
+             xmlns:vm="clr-namespace:DeviceTracker.ViewModels">
+
+    <ContentView.BindingContext>
+        <vm:FlyoutHeaderViewModel />
+    </ContentView.BindingContext>
+
+    <ContentView.Content>
+        <StackLayout Orientation="Horizontal" Margin="5">
+            <Frame CornerRadius="16" Margin="0" Padding="0" IsClippedToBounds="True">
+                <Image Source="{Binding UserPicture}" HeightRequest="32" WidthRequest="32"/>
+            </Frame>
+            <Label Text="{Binding UserName}" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" FontAttributes="Bold" />
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

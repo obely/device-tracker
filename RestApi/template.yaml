@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A project for tracking mobile device location
+Transform: "AWS::Serverless-2016-10-31"
+
+Parameters:
+  TableName:
+    Type: String
+    Default: 'Routes'
+    Description: (Required) The name of the new DynamoDB table you want to create and save to. Minimum 3 characters
+    MinLength: 3
+    MaxLength: 50
+    AllowedPattern: ^[A-Za-z]+$
+    ConstraintDescription: 'Required parameter. Must be characters only. No numbers allowed.'
+
+  AuthServer:
+      Description: 'Required. The URL of the Authorization Server'
+      Type: 'String'
+
+  Audience:
+      Description: 'Required. The audience.'
+      Type: 'CommaDelimitedList'
+
+Resources:
+  ProtectedHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: dev
+      CorsConfiguration:
+        AllowOrigins:
+          - "http://localhost:3000"
+        AllowMethods:
+          - "*"
+        AllowHeaders:
+          - "*"
+      Auth:
+        DefaultAuthorizer: JWTTokenExample
+        Authorizers:
+          JWTTokenExample:
+            JwtConfiguration:
+              issuer: !Ref AuthServer
+              audience: !Ref Audience
+            IdentitySource: "$request.header.Authorization"
+
+  RoutesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handler.handler
+      Runtime: nodejs14.x
+      CodeUri: ./routes
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TableName
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TableName
+      Events:
+        RoutesListApi:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProtectedHttpApi
+            Path: /routes
+            Method: GET
+        CreateRouteApi:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProtectedHttpApi
+            Path: /routes
+            Method: POST
+        RouteApi:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ProtectedHttpApi
+            Path: /routes/{id}
+            Method: ANY
+
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref TableName
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: started
+          AttributeType: N
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: started
+          KeyType: RANGE
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1

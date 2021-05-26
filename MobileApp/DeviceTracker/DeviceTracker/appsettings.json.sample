@@ -1,0 +1,10 @@
+﻿{
+  "Authentication": {
+    "Domain": "Domain from Auth0 portal",
+    "ClientId": "ClientId from Auth0 portal",
+    "Audience": "Audience from Auth0 portal"
+  },
+  "Service": {
+    "Url": "REST API base address"
+  }
+}

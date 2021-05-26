@@ -1,0 +1,2 @@
+AuthServer=<Authorization Server URL>
+Audience=<comma-separated list of allowed audiences (urls)>

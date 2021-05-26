@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+	<string name="app_name">Device Tracker</string>
+	<string name="location_service_notification_text">The Location Service is running.</string>
+	<string name="action_stop">Stop</string>
+</resources>

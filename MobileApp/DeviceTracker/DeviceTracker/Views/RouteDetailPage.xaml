@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DeviceTracker.Views.RouteDetailPage"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Remove" Command="{Binding RemoveRouteCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        
+        <Grid Padding="0" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />    
+            </Grid.RowDefinitions>
+            
+            <StackLayout Orientation="Horizontal" Grid.Row="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0" Text="Started:" FontSize="Small" />
+                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding Started, StringFormat='{}{0:U}'}" FontSize="Small"/>
+
+                    <Label Grid.Column="0" Grid.Row="1" Text="Finished:" FontSize="Small" />
+                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Finished, StringFormat='{}{0:U}'}" FontSize="Small"/>
+
+                    <Label Grid.Column="0" Grid.Row="2" Text="Duration:" FontSize="Small" />
+                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Duration}" FontSize="Small"/>
+
+                    <Label Grid.Column="0" Grid.Row="3" Text="From:" FontSize="Small" />
+                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding StartAddress}" FontSize="Small"/>
+
+                    <Label Grid.Column="0" Grid.Row="4" Text="To:" FontSize="Small" />
+                    <Label Grid.Column="1" Grid.Row="4" Text="{Binding FinishAddress}" FontSize="Small"/>
+                </Grid>
+            </StackLayout>
+            <StackLayout Grid.Row="1">
+                <maps:Map x:Name="Map" />
+            </StackLayout>
+        </Grid>
+
+    </ContentPage.Content>
+
+</ContentPage>

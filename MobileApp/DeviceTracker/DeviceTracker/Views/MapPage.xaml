@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DeviceTracker.Views.MapPage"
+             Title="{Binding Title}"
+             xmlns:vm="clr-namespace:DeviceTracker.ViewModels"
+             xmlns:local="clr-namespace:DeviceTracker.Converters.Xaml"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps">
+    
+    <ContentPage.BindingContext>
+        <vm:MapViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <local:NegateBooleanConverter x:Key="inverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackLayout>
+                <maps:Map x:Name="Map" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Grid.Row="1">
+                <Button Text="Start" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsRunning, Converter={StaticResource inverter}}" Command="{Binding StartCommand}" />
+                <Button Text="Stop" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsRunning}" Command="{Binding StopCommand}" />
+            </StackLayout>
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>
